@@ -44,7 +44,26 @@ window.addEventListener("DOMContentLoaded", () => {
         );
     },
 
-    initScrollReveal() {},
+    initScrollReveal() {
+      const features = document.querySelectorAll(".feature");
+
+      gsap.set(features, { opacity: 0, y: 40 });
+
+      ScrollTrigger.batch(features, {
+        onEnter: (batch) => {
+          gsap.to(batch, {
+            opacity: 1,
+            y: 0,
+            stagger: 0.15,
+            duration: 0.9,
+            ease: "power2.out",
+            overwrite: true,
+          });
+        },
+        once: true,
+        start: "top 85%",
+      });
+    },
   };
 
   gsapAnimations.initHeroAnimations();
