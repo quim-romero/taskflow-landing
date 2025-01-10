@@ -241,3 +241,54 @@ ul {
     line-height: 1.6;
   }
 }
+
+// ----------------------------------------
+// PREVIEW SECTION
+// ----------------------------------------
+
+.preview {
+  padding: 6rem 0;
+  background-color: #ffffff;
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  &__wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem;
+  }
+
+  &__track {
+    display: flex;
+    gap: 2rem;
+    width: max-content;
+    padding: 1rem 0;
+  }
+
+  &__item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    border-radius: $radius;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+    width: 280px;
+
+    @media (min-width: 768px) {
+      width: 420px;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+  }
+}
