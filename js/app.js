@@ -22,26 +22,9 @@ window.addEventListener("DOMContentLoaded", () => {
         defaults: { duration: 1, ease: "power2.out" },
       });
 
-      tl.from(".hero__title", {
-        y: 40,
-        opacity: 0,
-      })
-        .from(
-          ".hero__subtitle",
-          {
-            y: 30,
-            opacity: 0,
-          },
-          "-=0.6"
-        )
-        .from(
-          ".hero .btn",
-          {
-            scale: 0.95,
-            opacity: 0,
-          },
-          "-=0.4"
-        );
+      tl.from(".hero__title", { y: 40, opacity: 0 })
+        .from(".hero__subtitle", { y: 30, opacity: 0 }, "-=0.6")
+        .from(".hero .btn", { scale: 0.95, opacity: 0 }, "-=0.4");
     },
 
     initScrollReveal() {
@@ -64,8 +47,31 @@ window.addEventListener("DOMContentLoaded", () => {
         start: "top 85%",
       });
     },
+
+    initPreviewCarousel() {
+      const section = document.querySelector(".preview");
+      const track = document.querySelector(".preview__track");
+
+      if (!section || !track) return;
+
+      const scrollLength = track.scrollWidth - window.innerWidth;
+
+      gsap.to(track, {
+        x: () => `-${scrollLength}px`,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: () => `+=${scrollLength}`,
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+        },
+      });
+    },
   };
 
   gsapAnimations.initHeroAnimations();
   gsapAnimations.initScrollReveal();
+  gsapAnimations.initPreviewCarousel();
 });
