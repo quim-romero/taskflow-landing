@@ -69,9 +69,55 @@ window.addEventListener("DOMContentLoaded", () => {
         },
       });
     },
+
+    initCTAAnimations() {
+      const cta = document.querySelector(".cta-final");
+
+      if (!cta) return;
+
+      const elements = [
+        ".cta-final__title",
+        ".cta-final__subtitle",
+        ".cta-final .btn",
+      ];
+
+      gsap.from(elements, {
+        opacity: 0,
+        y: 30,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: cta,
+          start: "top 85%",
+          once: true,
+        },
+      });
+    },
+
+    initFooterReveal() {
+      const footer = document.querySelector(".footer");
+
+      if (!footer) return;
+
+      gsap.from(footer, {
+        opacity: 0,
+        y: 40,
+        duration: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: footer,
+          start: "top 90%",
+          once: true,
+        },
+      });
+    },
   };
 
+  // Ejecutar animaciones
   gsapAnimations.initHeroAnimations();
   gsapAnimations.initScrollReveal();
   gsapAnimations.initPreviewCarousel();
+  gsapAnimations.initCTAAnimations();
+  gsapAnimations.initFooterReveal();
 });
