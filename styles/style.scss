@@ -1,15 +1,17 @@
-@use 'sass:color';
+@use "sass:color";
 
 // ----------------------------------------
 // VARIABLES
 // ----------------------------------------
 
-$color-bg: #ffffff;
-$color-text: #111111;
-$color-primary: #6366f1;
+$color-bg: #f9fafb;
+$color-surface: #ffffff;
+$color-text: #111827;
 $color-muted: #6b7280;
 $color-border: #e5e7eb;
-$color-accent: #f0f4ff;
+$color-primary: #6366f1; // Indigo
+$color-primary-dark: color.adjust($color-primary, $lightness: -5%);
+$color-accent: #eef2ff;
 
 $font-base: "Inter", sans-serif;
 $radius: 0.75rem;
@@ -33,6 +35,17 @@ body {
   background-color: $color-bg;
   color: $color-text;
   -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color $transition;
+
+  &:hover {
+    color: $color-primary;
+  }
 }
 
 img,
@@ -41,15 +54,10 @@ svg {
   display: block;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
 ul {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 // ----------------------------------------
@@ -71,39 +79,41 @@ ul {
   font-weight: 600;
   font-size: 1rem;
   border-radius: $radius;
-  transition: transform $transition, box-shadow $transition;
-  cursor: pointer;
+  transition: all $transition;
   border: none;
+  cursor: pointer;
 
   &--primary {
     background-color: $color-primary;
     color: #fff;
 
     &:hover {
-      transform: scale(1.04);
-      box-shadow: 0 6px 18px rgba($color-primary, 0.25);
+      background-color: $color-primary-dark;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba($color-primary, 0.25);
     }
   }
 
   &--large {
     font-size: 1.125rem;
-    padding: 1rem 2rem;
+    padding: 1rem 2.25rem;
   }
 }
 
 // ----------------------------------------
-// COMPONENTS
+// HEADER
 // ----------------------------------------
 
 .header {
   position: fixed;
-  width: 100%;
   top: 0;
   left: 0;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
+  width: 100%;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.75);
   border-bottom: 1px solid $color-border;
+  transition: background-color $transition;
 
   .container {
     display: flex;
@@ -115,6 +125,7 @@ ul {
   .logo {
     font-weight: 700;
     font-size: 1.25rem;
+    color: $color-text;
   }
 
   .nav {
@@ -127,8 +138,12 @@ ul {
     }
 
     a {
-      color: $color-text;
       font-weight: 500;
+      color: $color-muted;
+
+      &:hover {
+        color: $color-text;
+      }
     }
   }
 
@@ -147,18 +162,32 @@ ul {
   }
 }
 
+// ----------------------------------------
+// HERO
+// ----------------------------------------
+
 .hero {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 8rem 0 6rem;
+  padding: 10rem 0 6rem;
+  background: $color-surface;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 
   &__title {
-    font-size: 2.25rem;
+    font-size: 2.5rem;
     line-height: 1.2;
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 1rem;
+    max-width: 720px;
   }
 
   &__subtitle {
@@ -169,13 +198,11 @@ ul {
     margin-left: auto;
     margin-right: auto;
   }
-}
 
-.footer {
-  padding: 3rem 0;
-  text-align: center;
-  color: $color-muted;
-  font-size: 0.875rem;
+  .btn {
+    font-size: 1.125rem;
+    padding: 1rem 2.25rem;
+  }
 }
 
 // ----------------------------------------
@@ -184,7 +211,7 @@ ul {
 
 .features {
   padding: 6rem 0;
-  background-color: #f9fafb;
+  background-color: $color-surface;
 
   &__title {
     font-size: 2rem;
@@ -210,14 +237,14 @@ ul {
 
 .feature {
   text-align: center;
-  padding: 1.5rem;
+  padding: 2rem 1.5rem;
   border-radius: $radius;
+  background-color: $color-accent;
   transition: transform $transition, box-shadow $transition;
-  background-color: #fff;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba($color-primary, 0.08);
   }
 
   &__icon {
@@ -249,48 +276,40 @@ ul {
 // ----------------------------------------
 
 .preview {
-  padding: 6rem 0;
-  background-color: #ffffff;
-
-  &__title {
-    font-size: 2rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 3rem;
-  }
+  padding: 4rem 0;
 
   &__wrapper {
     overflow-x: auto;
-    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
-    padding-bottom: 1rem;
+    display: flex;
+    padding-left: 1rem;
   }
 
   &__track {
     display: flex;
-    gap: 2rem;
-    width: max-content;
-    padding: 1rem 0;
+    gap: 1rem;
   }
 
   &__item {
     flex: 0 0 auto;
     scroll-snap-align: start;
+    background-color: #fff;
     border-radius: $radius;
     overflow: hidden;
+    width: 260px; // Ajustado para pantallas móviles
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    background-color: #fff;
-    width: 280px;
 
     @media (min-width: 768px) {
-      width: 420px;
+      width: 400px; // Desktop
     }
 
     img {
-      width: 100%;
       display: block;
-      height: auto;
+      height: 260px;
+      width: auto;
+      margin: 0 auto;
+      object-fit: contain;
     }
   }
 }
@@ -299,9 +318,20 @@ ul {
 // TESTIMONIALS SECTION
 // ----------------------------------------
 
+.logo-svg {
+  height: 40px;
+  color: #888;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #6366f1;
+    transform: scale(1.05);
+  }
+}
+
 .testimonials {
   padding: 6rem 0;
-  background-color: #f9fafb;
+  background-color: $color-accent;
 
   &__title {
     font-size: 2rem;
@@ -343,7 +373,7 @@ ul {
 }
 
 .testimonial {
-  background-color: #ffffff;
+  background-color: $color-surface;
   padding: 2rem;
   border-radius: $radius;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
@@ -353,11 +383,11 @@ ul {
   align-items: center;
 
   &__avatar {
-    width: 64px;
-    height: 64px;
+    width: 96px;
+    height: 96px;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
   }
 
   blockquote {
@@ -380,7 +410,7 @@ ul {
 
 .pricing {
   padding: 6rem 0;
-  background-color: #ffffff;
+  background-color: $color-surface;
 
   &__title {
     font-size: 2rem;
@@ -401,7 +431,7 @@ ul {
 }
 
 .plan {
-  background-color: #f9fafb;
+  background-color: $color-accent;
   padding: 2.5rem;
   border-radius: $radius;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
@@ -448,10 +478,6 @@ ul {
   }
 
   &__features {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 2rem;
-
     li {
       margin-bottom: 0.5rem;
       font-size: 0.95rem;
@@ -464,11 +490,23 @@ ul {
   }
 
   &--highlighted {
-    background-color: #eef2ff;
-    border: 2px solid $color-primary;
+    background-color: $color-primary;
+    color: #fff;
+    border: 2px solid color.adjust($color-primary, $lightness: -5%);
+
+    .plan__price span,
+    .plan__desc,
+    .plan__features li {
+      color: rgba(255, 255, 255, 0.85);
+    }
 
     .btn {
-      background-color: color.adjust($color-primary, $lightness: -5%);
+      background-color: #fff;
+      color: $color-primary;
+
+      &:hover {
+        background-color: $color-accent;
+      }
     }
   }
 }
@@ -480,7 +518,6 @@ ul {
 .cta-final {
   padding: 6rem 0;
   background: linear-gradient(135deg, #eef2ff, #ffffff);
-
   text-align: center;
 
   &__title {
@@ -510,7 +547,7 @@ ul {
 
 .footer {
   padding: 3rem 0;
-  background-color: #f9fafb;
+  background-color: $color-surface;
   font-size: 0.9rem;
   color: $color-muted;
 
