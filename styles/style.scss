@@ -4,7 +4,7 @@
 // VARIABLES
 // ----------------------------------------
 
-$color-bg: #f9fafb;
+$color-bg: #fdfcf9;
 $color-surface: #ffffff;
 $color-text: #111827;
 $color-muted: #6b7280;
@@ -17,6 +17,10 @@ $font-base: "Inter", sans-serif;
 $radius: 0.75rem;
 $transition: 0.25s ease-in-out;
 
+$color-highlight: #6366f1;
+$color-bg-pricing: #f9fafb;
+$color-btn-light: lighten($color-highlight, 38%);
+
 // ----------------------------------------
 // RESET & BASE
 // ----------------------------------------
@@ -25,6 +29,10 @@ $transition: 0.25s ease-in-out;
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,
@@ -167,36 +175,59 @@ ul {
 // ----------------------------------------
 
 .hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 10rem 0 6rem;
-  background: $color-surface;
+  background: $color-bg;
+  padding: 8rem 0;
 
-  .container {
+  &__container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 3rem;
+
+    @media (min-width: 960px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  &__content {
+    flex: 1;
     text-align: center;
+
+    @media (min-width: 960px) {
+      text-align: left;
+    }
   }
 
   &__title {
-    font-size: 2.5rem;
-    line-height: 1.2;
+    font-size: 2.75rem;
     font-weight: 800;
+    line-height: 1.2;
     margin-bottom: 1rem;
-    max-width: 720px;
+    max-width: 640px;
+
+    span {
+      color: $color-highlight;
+    }
   }
 
   &__subtitle {
     font-size: 1.125rem;
     color: $color-muted;
     margin-bottom: 2rem;
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  &__image {
+    flex: 1;
     max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
   }
 
   .btn {
@@ -211,7 +242,7 @@ ul {
 
 .features {
   padding: 6rem 0;
-  background-color: $color-surface;
+  background-color: $color-bg;
 
   &__title {
     font-size: 2rem;
@@ -409,20 +440,21 @@ ul {
 // ----------------------------------------
 
 .pricing {
-  padding: 6rem 0;
-  background-color: $color-surface;
+  padding: 7rem 0;
+  background-color: $color-bg-pricing;
 
   &__title {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 2.25rem;
+    font-weight: 800;
     text-align: center;
     margin-bottom: 3rem;
   }
 
   &__grid {
     display: grid;
-    grid-template-columns: 1fr;
     gap: 2rem;
+    grid-template-columns: 1fr;
+    align-items: stretch;
 
     @media (min-width: 768px) {
       grid-template-columns: repeat(3, 1fr);
@@ -431,38 +463,46 @@ ul {
 }
 
 .plan {
-  background-color: $color-accent;
-  padding: 2.5rem;
+  background-color: #fff;
   border-radius: $radius;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05);
+  padding: 2.5rem;
   text-align: center;
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  }
 
   &__badge {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background-color: $color-primary;
+    background-color: $color-highlight;
     color: #fff;
     font-size: 0.75rem;
     padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
+    border-radius: 999px;
     font-weight: 600;
+    box-shadow: 0 2px 8px rgba($color-highlight, 0.3);
   }
 
   &__name {
     font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
   }
 
   &__price {
     font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
+    font-weight: 800;
+    margin: 1rem 0;
 
     span {
       font-size: 1rem;
@@ -472,41 +512,70 @@ ul {
   }
 
   &__desc {
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: $color-muted;
     margin-bottom: 1.5rem;
+    min-height: 3.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 
   &__features {
+    margin-bottom: 2rem;
+
     li {
-      margin-bottom: 0.5rem;
       font-size: 0.95rem;
+      margin-bottom: 0.5rem;
     }
   }
 
   .btn {
-    align-self: center;
-    margin-top: auto;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 1rem 2rem;
+    border-radius: $radius;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease,
+      box-shadow 0.2s ease;
+    cursor: pointer;
+    border: none;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    &--primary {
+      background-color: $color-highlight;
+      color: #fff;
+
+      &:hover {
+        background-color: darken($color-highlight, 4%);
+        box-shadow: 0 6px 16px rgba($color-highlight, 0.25);
+      }
+    }
+
+    &--secondary {
+      background-color: $color-btn-light;
+      color: $color-highlight;
+
+      &:hover {
+        background-color: lighten($color-highlight, 32%);
+        box-shadow: 0 6px 14px rgba($color-highlight, 0.15);
+      }
+    }
   }
 
   &--highlighted {
-    background-color: $color-primary;
-    color: #fff;
-    border: 2px solid color.adjust($color-primary, $lightness: -5%);
+    border: 2px solid $color-highlight;
 
-    .plan__price span,
-    .plan__desc,
-    .plan__features li {
-      color: rgba(255, 255, 255, 0.85);
+    .plan__name {
+      color: $color-highlight;
     }
 
     .btn {
-      background-color: #fff;
-      color: $color-primary;
-
-      &:hover {
-        background-color: $color-accent;
-      }
+      @extend .btn--primary;
     }
   }
 }
