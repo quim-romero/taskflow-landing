@@ -9,17 +9,28 @@ $color-surface: #ffffff;
 $color-text: #111827;
 $color-muted: #6b7280;
 $color-border: #e5e7eb;
-$color-primary: #6366f1; // Indigo
+$color-primary: #6366f1;
 $color-primary-dark: color.adjust($color-primary, $lightness: -5%);
 $color-accent: #eef2ff;
+$color-gradient: linear-gradient(135deg, #eef2ff, #ffffff);
 
 $font-base: "Inter", sans-serif;
 $radius: 0.75rem;
 $transition: 0.25s ease-in-out;
 
 $color-highlight: #6366f1;
-$color-bg-pricing: #f9fafb;
-$color-btn-light: lighten($color-highlight, 38%);
+
+$color-btn-light: color.adjust($color-highlight, $lightness: 38%);
+
+// ----------------------------------------
+// SPACING SYSTEM
+// ----------------------------------------
+$space-xs: 0.5rem;
+$space-sm: 1rem;
+$space-md: 2rem;
+$space-lg: 3rem;
+$space-xl: 4.5rem;
+$space-2xl: 6rem;
 
 // ----------------------------------------
 // RESET & BASE
@@ -44,6 +55,10 @@ body {
   color: $color-text;
   -webkit-font-smoothing: antialiased;
   line-height: 1.6;
+}
+
+section:not(:last-child) {
+  margin-bottom: $space-xl;
 }
 
 a {
@@ -92,19 +107,22 @@ ul {
   cursor: pointer;
 
   &--primary {
-    background-color: $color-primary;
-    color: #fff;
+    background-color: $color-highlight;
+    color: #fff !important;
+    font-weight: 600;
+    box-shadow: 0 6px 16px rgba($color-highlight, 0.22);
+    transition: transform $transition, box-shadow $transition;
 
     &:hover {
-      background-color: $color-primary-dark;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba($color-primary, 0.25);
+      transform: scale(1.02);
+      box-shadow: 0 10px 24px rgba($color-highlight, 0.28);
+      background-color: $color-highlight;
     }
-  }
 
-  &--large {
-    font-size: 1.125rem;
-    padding: 1rem 2.25rem;
+    &:active {
+      transform: scale(0.97);
+      box-shadow: 0 4px 10px rgba($color-highlight, 0.2);
+    }
   }
 }
 
@@ -176,17 +194,31 @@ ul {
 
 .hero {
   background: $color-bg;
-  padding: 8rem 0;
+  padding-top: $space-lg;
+  padding-bottom: $space-md;
+
+  @media (min-width: 1280px) {
+    padding-top: $space-md;
+    padding-bottom: $space-md;
+  }
 
   &__container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3rem;
+    gap: $space-lg;
 
     @media (min-width: 960px) {
       flex-direction: row;
       justify-content: space-between;
+      gap: $space-xl;
+    }
+
+    @media (min-width: 1280px) {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-left: $space-lg;
+      padding-right: $space-lg;
     }
   }
 
@@ -194,34 +226,58 @@ ul {
     flex: 1;
     text-align: center;
 
+    @media (min-width: 768px) {
+      padding-left: $space-sm;
+      padding-right: $space-sm;
+    }
+
     @media (min-width: 960px) {
       text-align: left;
+      padding-left: 0;
+    }
+
+    @media (min-width: 1280px) {
+      padding-left: $space-md;
     }
   }
 
   &__title {
-    font-size: 2.75rem;
+    font-size: 2.25rem;
     font-weight: 800;
     line-height: 1.2;
-    margin-bottom: 1rem;
-    max-width: 640px;
+    margin-bottom: $space-sm;
+    max-width: 600px;
 
     span {
       color: $color-highlight;
+    }
+
+    @media (min-width: 768px) {
+      font-size: 2.75rem;
     }
   }
 
   &__subtitle {
     font-size: 1.125rem;
     color: $color-muted;
-    margin-bottom: 2rem;
-    max-width: 520px;
+    margin-bottom: $space-md;
+    max-width: 480px;
     line-height: 1.6;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media (min-width: 960px) {
+      margin: 0 0 $space-md 0;
+    }
   }
 
   &__image {
     flex: 1;
-    max-width: 600px;
+    max-width: 520px;
+
+    @media (min-width: 1280px) {
+      max-width: 620px;
+    }
 
     img {
       width: 100%;
@@ -241,20 +297,20 @@ ul {
 // ----------------------------------------
 
 .features {
-  padding: 6rem 0;
+  padding: $space-xl 0 $space-lg;
   background-color: $color-bg;
 
   &__title {
     font-size: 2rem;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: $space-lg;
   }
 
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: $space-lg;
 
     @media (min-width: 640px) {
       grid-template-columns: repeat(2, 1fr);
@@ -268,7 +324,7 @@ ul {
 
 .feature {
   text-align: center;
-  padding: 2rem 1.5rem;
+  padding: $space-md $space-sm;
   border-radius: $radius;
   background-color: $color-accent;
   transition: transform $transition, box-shadow $transition;
@@ -279,7 +335,7 @@ ul {
   }
 
   &__icon {
-    margin: 0 auto 1rem;
+    margin: 0 auto $space-sm;
     width: 48px;
     height: 48px;
 
@@ -292,7 +348,7 @@ ul {
   &__title {
     font-size: 1.125rem;
     font-weight: 600;
-    margin-bottom: 0.75rem;
+    margin-bottom: $space-xs;
   }
 
   &__desc {
@@ -307,32 +363,32 @@ ul {
 // ----------------------------------------
 
 .preview {
-  padding: 4rem 0;
+  padding: $space-lg 0;
 
   &__wrapper {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
     display: flex;
-    padding-left: 1rem;
+    padding-left: $space-sm;
   }
 
   &__track {
     display: flex;
-    gap: 1rem;
+    gap: $space-sm;
   }
 
   &__item {
     flex: 0 0 auto;
     scroll-snap-align: start;
-    background-color: #fff;
+    background-color: $color-bg;
     border-radius: $radius;
     overflow: hidden;
-    width: 260px; // Ajustado para pantallas móviles
+    width: 260px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 
     @media (min-width: 768px) {
-      width: 400px; // Desktop
+      width: 400px;
     }
 
     img {
@@ -349,45 +405,38 @@ ul {
 // TESTIMONIALS SECTION
 // ----------------------------------------
 
-.logo-svg {
-  height: 40px;
-  color: #888;
-  transition: all 0.3s ease;
-
-  &:hover {
-    color: #6366f1;
-    transform: scale(1.05);
-  }
-}
-
 .testimonials {
-  padding: 6rem 0;
+  padding: $space-xl 0;
   background-color: $color-accent;
 
   &__title {
     font-size: 2rem;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: $space-lg;
   }
 
   &__logos {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 2rem;
-    margin-bottom: 4rem;
+    gap: $space-md;
+    margin-bottom: $space-xl;
 
-    img {
+    .logo-svg {
       height: 40px;
-      filter: grayscale(100%);
-      opacity: 0.6;
-      transition: filter $transition, opacity $transition, transform $transition;
+      opacity: 0.7;
+      color: #888;
+      transition: color $transition, opacity $transition, transform $transition;
 
       &:hover {
-        filter: none;
         opacity: 1;
+        color: $color-highlight;
         transform: scale(1.05);
+      }
+
+      * {
+        transition: fill $transition, stroke $transition;
       }
     }
   }
@@ -395,7 +444,7 @@ ul {
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: $space-lg;
 
     @media (min-width: 768px) {
       grid-template-columns: repeat(3, 1fr);
@@ -405,7 +454,7 @@ ul {
 
 .testimonial {
   background-color: $color-surface;
-  padding: 2rem;
+  padding: $space-md;
   border-radius: $radius;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
   text-align: center;
@@ -418,14 +467,14 @@ ul {
     height: 96px;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 1.25rem;
+    margin-bottom: $space-sm;
   }
 
   blockquote {
     font-size: 1rem;
     font-style: italic;
     color: $color-text;
-    margin-bottom: 1rem;
+    margin-bottom: $space-sm;
     line-height: 1.6;
   }
 
@@ -440,19 +489,19 @@ ul {
 // ----------------------------------------
 
 .pricing {
-  padding: 7rem 0;
-  background-color: $color-bg-pricing;
+  padding: $space-xl 0;
+  background-color: $color-bg;
 
   &__title {
     font-size: 2.25rem;
     font-weight: 800;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: $space-lg;
   }
 
   &__grid {
     display: grid;
-    gap: 2rem;
+    gap: $space-md;
     grid-template-columns: 1fr;
     align-items: stretch;
 
@@ -466,7 +515,7 @@ ul {
   background-color: #fff;
   border-radius: $radius;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05);
-  padding: 2.5rem;
+  padding: $space-lg $space-md;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -482,8 +531,8 @@ ul {
 
   &__badge {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: $space-sm;
+    right: $space-sm;
     background-color: $color-highlight;
     color: #fff;
     font-size: 0.75rem;
@@ -494,15 +543,16 @@ ul {
   }
 
   &__name {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: $space-sm;
+    color: $color-text;
   }
 
   &__price {
     font-size: 2rem;
     font-weight: 800;
-    margin: 1rem 0;
+    margin: $space-sm 0;
 
     span {
       font-size: 1rem;
@@ -514,7 +564,7 @@ ul {
   &__desc {
     font-size: 1rem;
     color: $color-muted;
-    margin-bottom: 1.5rem;
+    margin-bottom: $space-md;
     min-height: 3.25rem;
     display: flex;
     align-items: center;
@@ -523,18 +573,18 @@ ul {
   }
 
   &__features {
-    margin-bottom: 2rem;
+    margin-bottom: $space-lg;
 
     li {
       font-size: 0.95rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: $space-xs;
     }
   }
 
   .btn {
     font-size: 1rem;
     font-weight: 600;
-    padding: 1rem 2rem;
+    padding: $space-sm $space-md;
     border-radius: $radius;
     text-align: center;
     transition: background-color 0.3s ease, transform 0.2s ease,
@@ -551,7 +601,7 @@ ul {
       color: #fff;
 
       &:hover {
-        background-color: darken($color-highlight, 4%);
+        background-color: color.adjust($color-highlight, $lightness: -4%);
         box-shadow: 0 6px 16px rgba($color-highlight, 0.25);
       }
     }
@@ -561,21 +611,9 @@ ul {
       color: $color-highlight;
 
       &:hover {
-        background-color: lighten($color-highlight, 32%);
+        background-color: color.adjust($color-highlight, $lightness: 32%);
         box-shadow: 0 6px 14px rgba($color-highlight, 0.15);
       }
-    }
-  }
-
-  &--highlighted {
-    border: 2px solid $color-highlight;
-
-    .plan__name {
-      color: $color-highlight;
-    }
-
-    .btn {
-      @extend .btn--primary;
     }
   }
 }
@@ -585,28 +623,29 @@ ul {
 // ----------------------------------------
 
 .cta-final {
-  padding: 6rem 0;
-  background: linear-gradient(135deg, #eef2ff, #ffffff);
+  padding: $space-xl 0;
+  background: $color-gradient;
   text-align: center;
 
   &__title {
     font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 1rem;
+    margin-bottom: $space-sm;
   }
 
   &__subtitle {
     font-size: 1.125rem;
     color: $color-muted;
-    margin-bottom: 2rem;
+    margin-bottom: $space-md;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    line-height: 1.6;
   }
 
   .btn {
     font-size: 1.125rem;
-    padding: 1rem 2.25rem;
+    padding: $space-sm $space-lg;
   }
 }
 
@@ -615,7 +654,7 @@ ul {
 // ----------------------------------------
 
 .footer {
-  padding: 3rem 0;
+  padding: $space-lg 0;
   background-color: $color-surface;
   font-size: 0.9rem;
   color: $color-muted;
@@ -624,7 +663,7 @@ ul {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: $space-md;
     text-align: center;
 
     @media (min-width: 768px) {
@@ -638,12 +677,12 @@ ul {
     font-weight: 700;
     font-size: 1.25rem;
     color: $color-text;
-    margin-bottom: 0.5rem;
+    margin-bottom: $space-xs;
   }
 
   &__nav ul {
     display: flex;
-    gap: 1.5rem;
+    gap: $space-md;
 
     a {
       color: $color-muted;
@@ -657,7 +696,7 @@ ul {
 
   &__social {
     display: flex;
-    gap: 1.25rem;
+    gap: $space-sm;
 
     img {
       width: 24px;
